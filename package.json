@@ -9,14 +9,33 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.6.1",
+    "ace-builds": "^1.13.1",
+    "axios": "^1.2.0",
+    "cookie": "^0.5.0",
+    "cors": "^2.8.5",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "net": "^1.0.2",
+    "next": "13.0.3",
+    "prop-types": "^15.7.2",
+    "react": "18.2.0",
+    "react-ace": "^10.1.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.12.1",
+    "request": "^2.88.2",
+    "rxjs": "^7.3.0",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
-    "@types/react-dom": "18.0.9",
-    "eslint": "8.28.0",
-    "eslint-config-next": "13.0.5",
-    "next": "13.0.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.3"
+    "@types/request": "^2.48.8",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
   }
 }
