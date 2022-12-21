@@ -1,1 +1,1 @@
-console.log("hello world!!")
+plot(1, 3)

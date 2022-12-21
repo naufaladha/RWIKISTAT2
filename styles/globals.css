@@ -1,4 +1,8 @@
-* {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+* { font-family: 'Poppins', sans-serif;
   margin: 0;
 }
 
@@ -29,21 +33,14 @@
   position: relative;
 }
 .button-container {
-  text-align: right;
+  text-align: center;
   padding: 4px;
 }
 
 .btn {
-  background: #57a958;
+  background: #00726B;
   color: white;
   padding: 8px;
-  border: 0;
+  
 }
 
-.output {
-  padding: 4px;
-  border: 2px solid gray;
-  min-height: 100px;
-  width: 99%;
-  resize: none;
-}

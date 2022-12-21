@@ -17,16 +17,24 @@ import axios from "axios";
 const Editor = () => {
   const [lang, setlang] = useState("r");
   const [theme, settheme] = useState("chrome");
-  const [code, setcode] = useState(`
-  png("./public/myplot1.png")
-  x <- c(171,173,160,173,162,173,173,173,162,173,161,171,175,167,175,167,155,160,165,169,151,153,150,163,161,159,159,150,151,160,153,153,152,155)
-  y <- c(65,53,50,49,50,63,68,54,52,55,49,60,65,52,65,49,40,57,55,63,32,45,45,45,67,42,59,38,43,50,54,49,42,45)
-  
-  plot(x, y)`);
-  const [output, setoutput] = useState("");
+  const [code, setcode] = useState("");
+  const [output, setoutput] = useState(" ");
+  const [option, setOption] = useState("string");
+  const plotSyntax = `png("./public/myplot.png")`;
+
+  function checkOption() {
+    if(option === 'plot'){
+      setOption('');
+      setcode(`${plotSyntax} \n`)
+    }
+    if(option === 'string') {
+      setOption('');
+      setcode('');
+    }
+    return code;
+  }
   async function executeCode() {
-    // send a POST request
-    // console.log(code)
+    console.log(code);
     await axios({
       method: "post",
       url: "/api/execute",
@@ -36,7 +44,7 @@ const Editor = () => {
       },
     }).then(
       (response) => {
-        console.log(response);
+        // console.log(response);
         setoutput(response.data);
       },
       (error) => {
@@ -46,7 +54,7 @@ const Editor = () => {
   }
  const showPlot= ()=>{
   const out = document.querySelector('.output') as HTMLElement
-  out.innerHTML = `<iframe  width=500px src="myplot1.png"></iframe>` 
+  out.innerHTML = `<iframe src="./myplot.png" height='600px'></iframe>` 
  } 
   //   async function execute() {
   //     var program = {
@@ -74,14 +82,22 @@ const Editor = () => {
       <div id="example"></div>
       <div className="flex flex-row">
       <div className="flex flex-col border-4 rounded-2xl w-[50%]">
-      <h1 className=" justify-center flex bg-gray-300 w-full rounded-2xl h-6">Input</h1>
+      <div className="title justify-center flex bg-gray-300 w-full rounded-2xl h-6 relative">
+        <h1 className="">Input </h1>
+        <select className="absolute right-0 w-28" name="option" id="pilihan" onChange={(e)=>{setOption(e.target.value)}}>
+          <option value="string">string</option>
+          <option value="plot">plot</option> 
+        </select> 
+      </div>
       <AceEditor 
         mode={lang}
         theme={theme}
         name="example"
-        value= {code}
         fontSize={14}
-        // onChange={(e)=>setcode(e)}
+        value={checkOption()}
+        onChange={(e) => {
+          setcode(e)}
+        }
         showPrintMargin={true}
         showGutter={true}
         highlightActiveLine={true}
@@ -92,23 +108,21 @@ const Editor = () => {
           enableLiveAutocompletion: false,
           enableSnippets: false,
           showLineNumbers: true,
-          tabSize: 2,
-    
+          tabSize:2,
         }}
       />
       </div>
-      <div className="flex border-4 w-[50%] output rounded-2xl">
+      <div className="flex flex-col border-4 w-[50%] rounded-2xl output">
         <h1 className=" justify-center flex bg-gray-300 w-full rounded-2xl h-6">Output</h1>
-        <br />
         {output}
-        </div>
+      </div>
     </div>
-    <div className="button-container flex flex-row justify-center gap-3">
+      <div className="button-container flex flex-row justify-center gap-3">
         <button className="btn rounded-md w-[200px] hover:text-black hover:bg-white hover:border-2 hover:border-black" onClick={executeCode}>
           {" "}
           Run{" "}
         </button>
-        <div className="">{output === "" ? <><button className="btn  hover:text-black hover:bg-white hover:border-2 hover:border-black rounded-md w-[200px] " onClick={showPlot}> tampilkan plot </button> </>: ""}</div>
+        <div className="">{output === "" ? <><button className="btn rounded-md w-[200px]  hover:text-black hover:bg-white hover:border-2 hover:border-black" onClick={showPlot}> tampilkan plot </button> </>: ""}</div>
       </div>
       
     </>

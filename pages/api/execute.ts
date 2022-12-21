@@ -67,6 +67,7 @@ export default async function handle(req: any, res: any) {
       res.setHeader("Content-Type", "application/json");
       res.setHeader("Cache-Control", "max-age=180000");
       res.end(JSON.stringify(stdout));
+      // console.log(stdout==="")
       resolve(stdout);
     });
   });
@@ -76,6 +77,9 @@ function createCommand(language: any) {
   var command: String = "";
   if (language === "php") {
     command = "C:\\xampp\\php\\php.exe";
+  }
+  if(language==="r"){
+    command="Rscript"
   }
   if (language === "python") {
     command =
