@@ -96,7 +96,7 @@ const EditorShiny = () => {
   }
  const showPlot= ()=>{
   const out = document.querySelector('.outputShiny') as HTMLElement
-  out.innerHTML = `<iframe src="https://testnaufal.shinyapps.io/shinywebapp/" height='600px'></iframe>` 
+  out.innerHTML = `<iframe src="https://testnaufal.shinyapps.io/shinywebapp/" height='500px'></iframe>` 
  } 
   //   async function execute() {
   //     var program = {

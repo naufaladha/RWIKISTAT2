@@ -17,11 +17,9 @@ import axios from "axios";
 const Editor = () => {
   const [lang, setlang] = useState("r");
   const [theme, settheme] = useState("chrome");
-  const [code, setcode] = useState(`
-  png("./public/myplot1.png")
-  x <- c(171,173,160,173,162,173,173,173,162,173,161,171,175,167,175,167,155,160,165,169,151,153,150,163,161,159,159,150,151,160,153,153,152,155)
-  y <- c(65,53,50,49,50,63,68,54,52,55,49,60,65,52,65,49,40,57,55,63,32,45,45,45,67,42,59,38,43,50,54,49,42,45)
-  
+  const [code, setcode] = useState(`png("./public/myplot1.png") 
+  x <- c(171, 173, 160, 173, 162, 173, 173, 173, 162, 173, 161, 171, 175, 167, 175, 167, 155, 160, 165, 169, 151, 153, 150, 163, 161, 159, 159, 150, 151, 160, 153, 153, 152, 155)
+  y <- c(65, 53, 50, 49, 50, 63, 68, 54, 52, 55, 49, 60, 65, 52, 65, 49, 40, 57, 55, 63, 32, 45, 45, 45, 67, 42, 59, 38, 43, 50, 54, 49, 42, 46)
   plot(x, y)`);
   const [output, setoutput] = useState("");
   async function executeCode() {
@@ -81,7 +79,7 @@ const Editor = () => {
         name="example"
         value= {code}
         fontSize={14}
-        // onChange={(e)=>setcode(e)}
+        onChange={(e)=>setcode(e)}
         showPrintMargin={true}
         showGutter={true}
         highlightActiveLine={true}
