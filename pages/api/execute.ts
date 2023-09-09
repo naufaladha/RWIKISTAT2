@@ -79,7 +79,7 @@ function createCommand(language: any) {
     command = "C:\\xampp\\php\\php.exe";
   }
   if(language==="r"){
-    command="Rscript"
+    command="Rscript.exe"
   }
   if (language === "python") {
     command =

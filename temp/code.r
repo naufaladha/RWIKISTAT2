@@ -1,2 +1,1 @@
-png("./public/myplot.png") 
-plot(1,2)
+1+1

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
-const Ace = dynamic(() => import("../components/EditorShiny"), { ssr: false });
+const Ace = dynamic(() => import("../components/EditorShiny1_1"), { ssr: false });
 
 const Home = () => {
   return (

@@ -13,53 +13,47 @@ import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-r";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const EditorShiny = () => {
+  const [iframeSrc, setIframeSrc] = useState("");
   const [lang, setlang] = useState("r");
   const [theme, settheme] = useState("chrome");
   const [code, setcode] = useState(`
-  library(shiny)
-  
-  # Define UI for application that draws a histogram
-  ui <- fluidPage(
-  
-      # Application title
-      titlePanel("Old Faithful Geyser Data"),
-  
-      # Sidebar with a slider input for number of bins 
-      sidebarLayout(
-          sidebarPanel(
-              sliderInput("bins",
-                          "Number of bins:",
-                          min = 1,
-                          max = 50,
-                          value = 30)
-          ),
-  
-          # Show a plot of the generated distribution
-          mainPanel(
-             plotOutput("distPlot")
-          )
-      )
+  #
+library(shiny)
+library(readr)
+
+ui <- fluidPage(
+  titlePanel("Barplot of Rural Female Deaths"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("type", "Barplot Type:", choices = c("Horizontal", "Vertical"))
+    ),
+    mainPanel(
+      plotOutput("barplot")
+    )
   )
-  
-  # Define server logic required to draw a histogram
-  server <- function(input, output) {
-  
-      output$distPlot <- renderPlot({
-          # generate bins based on input$bins from ui.R
-          x    <- faithful[, 2]
-          bins <- seq(min(x), max(x), length.out = input$bins + 1)
-  
-          # draw the histogram with the specified number of bins
-          hist(x, breaks = bins, col = 'darkgray', border = 'white',
-               xlab = 'Waiting time to next eruption (in mins)',
-               main = 'Histogram of waiting times')
-      })
-  }
-  
-  # Run the application 
-  shinyApp(ui = ui, server = server)`);
+)
+
+server <- function(input, output) {
+  output$barplot <- renderPlot({
+    VADeaths <- data.frame(
+      AgeGroup = c("50-54", "55-59", "60-64", "65-69", "70-74"),
+      RuralFemale = c(8.7, 11.7, 20.3, 30.9, 54.3),
+      UrbanFemale = c(8.4, 13.6, 19.3, 35.1, 50)
+    )
+    
+    if (input$type == "Horizontal") {
+      barplot(VADeaths$RuralFemale, main = "Horizontal Barplot", horiz = TRUE)
+    } else {
+      barplot(VADeaths$RuralFemale, main = "Vertical Barplot")
+    }
+  })
+}
+
+shinyApp(ui = ui, server = server) `);
   const [output, setoutput] = useState(" ");
   const [option, setOption] = useState("string");
   const plotSyntax = `png("./public/myplot.png")`;
@@ -94,10 +88,10 @@ const EditorShiny = () => {
       }
     );
   }
- const showPlot= ()=>{
-  const out = document.querySelector('.outputShiny') as HTMLElement
-  out.innerHTML = `<iframe src="https://testnaufal.shinyapps.io/shinywebapp/" height='500px'></iframe>` 
- } 
+  const showPlot = () => {
+    console.log("showPlot function is called");
+    setIframeSrc("https://testnaufal.shinyapps.io/shiny_interactive2_3/");
+  }; 
   //   async function execute() {
   //     var program = {
   //       script: { code },
@@ -148,19 +142,23 @@ const EditorShiny = () => {
         }}
       />
       </div>
-      <div className="flex flex-col border-4 w-[50%] rounded-2xl outputShiny">
-        <h1 className=" justify-center flex bg-gray-300 w-full rounded-2xl h-6">Output</h1>
-        {output}
+        <div className="flex flex-col border-4 w-[50%] rounded-2xl outputShiny">
+          <div className="relative justify-center flex bg-gray-300 w-full rounded-2xl h-6">
+            <h1 className="">Output</h1>
+          </div>
+          <div className="output relative flex "style={{height: '100%'}}>
+            {iframeSrc !== "" ? 
+              <iframe src={iframeSrc}  style={{width: '70%', height: '100%', flex: '1'}}></iframe> 
+              : output}
+          </div>
+        </div>
       </div>
-    </div>
       <div className="button-container flex flex-row justify-center gap-3">
         <button className="btn rounded-md w-[200px] hover:text-black hover:bg-white hover:border-2 hover:border-black" onClick={showPlot}>
-          {" "}
-          Run{" "}
+          {" "}Run{" "}
         </button>
-        <div className="">{output === "" ? <><button className="btn rounded-md w-[200px]  hover:text-black hover:bg-white hover:border-2 hover:border-black" onClick={showPlot}> tampilkan plot </button> </>: ""}</div>
+        <div className="">{output === "" ? <><button className="btn rounded-md w-[200px] hover:text-black hover:bg-white hover:border-2 hover:border-black" onClick={showPlot}> tampilkan plot </button> </>: ""}</div>
       </div>
-      
     </>
   );
 };
